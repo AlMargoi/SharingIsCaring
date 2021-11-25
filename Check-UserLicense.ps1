@@ -13,7 +13,7 @@ function Check-UserLicense
 
         .DESCRIPTION
         Gets the licenses assigned to a given user.
-        Requires connection to OnPrem AD and to AzureAD (Connect-AzureAD)
+        Requires a connection to AzureAD (Connect-AzureAD) and, optionally, to Active Directory.
         Translates the SKU_IDs to human friendly text. 
             e.g.: "C7DF2760-2C81-4EF7-B578-5B5392B571DF" is listed as "Office 365 Enterprise E5"
 
@@ -154,7 +154,7 @@ function Check-UserLicense
         }
         
         $RetVal = [ordered]@{
-                    USerPrincipalName = $ADUser.UserPrincipalName
+                    UserPrincipalName = if($ADUSer){$ADUser.UserPrincipalName}else{$AzureADUser.UserPrincipalName}
                     IsLicensed = $UserIsLicensed 
                     LicensingGroup = $LicenseMembership
                     AssignedLicenses = $AssignedLicenses
